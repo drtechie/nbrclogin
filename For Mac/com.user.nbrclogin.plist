@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+
+<!-- plist file to be copied to ~/Library/LaunchAgents -->
+<!-- nbrclogin executable & nbrclogin.sh should be in same directory -->
+
+<dict>
+	<key>Disabled</key>
+	<false/>
+	<key>KeepAlive</key>
+	<true/>
+	<key>Label</key>
+	<string>com.user.nbrcloginscript</string>
+	<key>Program</key>
+	<string>/Users/yourusername/Scripts/nbrclogin.sh</string> <!-- Change Directory if necessary -->
+	<key>RunAtLoad</key>
+	<true/>
+	<key>WorkingDirectory</key>
+	<string>/Users/yourusername/Scripts/</string> <!-- Change Directory if necessary -->
+</dict>
+</plist>

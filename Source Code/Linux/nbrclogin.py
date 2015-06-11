@@ -22,11 +22,14 @@ def login():
 	# login conf
 	USERNAME = config.get('login','USERNAME')
 	PASSWORD = config.get('login','PASSWORD')
+	t = str(time.time()).split('.')[0]
 	# This is the form data that the page sends when logging in
 	login_data = {
         'username': USERNAME,
         'password': PASSWORD,
-        'mode': '191'
+        'mode': '191',
+        'producttype':0,
+        'a':t
         }
 	try:
                 r=requests.post(URL, data=login_data)
@@ -47,10 +50,13 @@ def logout():
 	# login conf
 	USERNAME = config.get('login','USERNAME')
 	PASSWORD = config.get('login','PASSWORD')
+	t = str(time.time()).split('.')[0]
 	# This is the form data that the page sends when logging out
 	login_data = {
         'username': USERNAME,
-        'mode': '193'
+        'mode': '193',
+        'producttype':0,
+        'a':t
         }
 	r=requests.post(URL, data=login_data)
 	statusquery(r.text)
@@ -64,7 +70,8 @@ def keepalive():
 	config.readfp(fname)
 	# login conf
 	USERNAME = config.get('login','USERNAME')
-	r=requests.get(LIVEURL+'?mode=192&username='+USERNAME)
+	t = str(time.time()).split('.')[0]
+	r=requests.get(LIVEURL+'?mode=192&username='+USERNAME+'&a='+t+'&producttype=0')
 	checkalive = ack(r.text)
 	if checkalive=='ack':
 		#Send request every 160 sec to keep the connection alive
@@ -83,6 +90,7 @@ def statusquery(doc):
 	xmlTag = dom.getElementsByTagName('status')[0].toxml()
 	#strip off the tag (<tag>data</tag>  --->   data):
 	xmlData=xmlTag.replace('<status>','').replace('</status>','')
+	xmlData=xmlData.replace('<![CDATA[','').replace(']]>','')
 	print ("STATUS : " + xmlData+ "!!")
 
 #SERVER MESSAGE QUERY 
@@ -104,6 +112,7 @@ def ack(doc):
 	xmlTag = dom.getElementsByTagName('ack')[0].toxml()
 	#strip off the tag (<tag>data</tag>  --->   data):
 	xmlData=xmlTag.replace('<ack>','').replace('</ack>','')
+	xmlData=xmlData.replace('<![CDATA[','').replace(']]>','')
 	return xmlData
 
 #CREATE CONFIGURATION FILE IF NOT PRESENT
